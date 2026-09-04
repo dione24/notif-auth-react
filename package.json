@@ -1,0 +1,59 @@
+{
+  "name": "@spay/notif-auth-react",
+  "version": "0.1.0",
+  "description": "React WhatsApp login button with state and PKCE",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "node --test test/*.test.mjs",
+    "check": "npm run build && npm test",
+    "prepare": "npm run build",
+    "prepack": "npm run check"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "license": "MIT",
+  "author": "SAHEL PAY TECHNOLOGIES (SPAY)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dione24/notif-auth-react.git"
+  },
+  "homepage": "https://github.com/dione24/notif-auth-react#readme",
+  "bugs": {
+    "url": "https://github.com/dione24/notif-auth-react/issues"
+  },
+  "keywords": [
+    "notif-auth",
+    "whatsapp",
+    "authentication",
+    "oauth",
+    "pkce",
+    "react"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=22.12"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "@types/node": "^22",
+    "react": "^19.2.0",
+    "@types/react": "^19"
+  }
+}
