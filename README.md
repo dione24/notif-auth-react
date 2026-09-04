@@ -2,7 +2,13 @@
 
 A React button and callback helpers for [Notif Auth](https://auth.notif.ml) WhatsApp login. Uses browser-generated state and PKCE S256. Your backend verifies the signed profile and creates your application session.
 
-**Status:** public source, version 0.1.0. npm publication is planned; this package is not yet available from npm as part of this release.
+**Version:** 0.1.0.
+
+## Installation
+
+```bash
+npm install @spaysarldev/notif-auth-react
+```
 
 ## Install from source
 
@@ -16,7 +22,7 @@ npm run check
 npm pack
 
 # From your application's directory:
-npm install /path/to/notif-auth-react/spay-notif-auth-react-0.1.0.tgz
+npm install /path/to/notif-auth-react/spaysarldev-notif-auth-react-0.1.0.tgz
 ```
 
 `npm install github:dione24/notif-auth-react#main` also builds the package. Pin a reviewed commit for production.
@@ -29,7 +35,7 @@ The following callback handler sends the code and verifier to **your backend**. 
 
 ```tsx
 'use client';
-import { WhatsAppLoginButton } from '@spay/notif-auth-react';
+import { WhatsAppLoginButton } from '@spaysarldev/notif-auth-react';
 
 async function onCode(code: string, verifier: string) {
   const response = await fetch('/api/session', {
@@ -55,7 +61,7 @@ On your separate callback page, reuse the same `onCode` handler:
 
 ```tsx
 'use client';
-import { NotifAuthCallback } from '@spay/notif-auth-react';
+import { NotifAuthCallback } from '@spaysarldev/notif-auth-react';
 
 // onCode is the backend-exchange handler defined above.
 <NotifAuthCallback onCode={onCode} onError={showError} />
