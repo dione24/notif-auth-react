@@ -2,7 +2,7 @@
 
 A React button and callback helpers for [Notif Auth](https://auth.notif.ml) WhatsApp login. Uses browser-generated state and PKCE S256. Your backend verifies the signed profile and creates your application session.
 
-**Version:** 0.1.0.
+**Version:** 0.1.1.
 
 ## Installation
 
@@ -22,7 +22,7 @@ npm run check
 npm pack
 
 # From your application's directory:
-npm install /path/to/notif-auth-react/spaysarldev-notif-auth-react-0.1.0.tgz
+npm install /path/to/notif-auth-react/spaysarldev-notif-auth-react-0.1.1.tgz
 ```
 
 `npm install github:dione24/notif-auth-react#main` also builds the package. Pin a reviewed commit for production.
@@ -77,7 +77,7 @@ Do not mount both callback consumers on the same callback page. `WhatsAppLoginBu
 - Checks state, transaction age and callback origin/path.
 - Consumes the transaction once and removes code/state from the address bar.
 
-The transaction expires after 10 minutes. Starting another flow in the same tab replaces the previous transaction. For a server-managed flow with an HttpOnly transaction cookie, use the [Node.js SDK](https://github.com/dione24/notif-auth-node) instead; the React package is optional.
+The transaction expires after 15 minutes (a Notif Auth login can take up to about 12 minutes when the user asks for OTP code resends). Starting another flow in the same tab replaces the previous transaction. For a server-managed flow with an HttpOnly transaction cookie, use the [Node.js SDK](https://github.com/dione24/notif-auth-node) instead; the React package is optional.
 
 ## API
 

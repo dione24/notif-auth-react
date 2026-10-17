@@ -3,6 +3,8 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react';
 export type Callback=(code:string,verifier:string)=>void|Promise<void>;
 type Transaction={state:string;verifier:string;redirectUri:string;createdAt:number};
 const storageKey='notif-auth:transaction';
+// Notif Auth keeps a login open up to ~12 minutes in OTP mode (pending window + code resends), so allow 15.
+const transactionLifetimeMs=900_000;
 const base64=(bytes:Uint8Array)=>btoa(String.fromCharCode(...bytes)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
 export async function beginLogin(clientId:string,redirectUri:string,issuer='https://auth.notif.ml'){
   const authority=new URL(issuer);
@@ -24,7 +26,7 @@ export function consumeCallback():{code:string;verifier:string}|null{
   url.searchParams.delete('code');url.searchParams.delete('state');window.history.replaceState({},'',url);
   if(!stored)throw new Error('Missing login session. Restart the sign-in.');
   const tx=JSON.parse(stored) as Transaction;
-  if(!state || state!==tx.state || !/^[A-Za-z0-9_-]{43}$/.test(tx.verifier) || !Number.isFinite(tx.createdAt) || tx.createdAt>Date.now() || Date.now()-tx.createdAt>600000)throw new Error('Invalid or expired state');
+  if(!state || state!==tx.state || !/^[A-Za-z0-9_-]{43}$/.test(tx.verifier) || !Number.isFinite(tx.createdAt) || tx.createdAt>Date.now() || Date.now()-tx.createdAt>transactionLifetimeMs)throw new Error('Invalid or expired state');
   const callback=new URL(tx.redirectUri);
   if(callback.origin!==url.origin || callback.pathname!==url.pathname)throw new Error('Invalid callback URL');
   return {code,verifier:tx.verifier};
