@@ -26,9 +26,13 @@ test('consumes the transaction once and removes callback credentials from the ad
 });
 test('rejects mismatched state',async()=>{await prepare();window.location.href='https://app.example/callback?code=example-code&state=wrong';assert.throws(()=>consumeCallback());});
 test('rejects expired or malformed transactions',async()=>{
- for(const createdAt of [Date.now()-700000,undefined,Date.now()+60000]){
+ for(const createdAt of [Date.now()-960000,undefined,Date.now()+60000]){
   const tx=await prepare();storage.set('notif-auth:transaction',JSON.stringify({...tx,createdAt}));assert.throws(()=>consumeCallback());
  }
 });
 test('rejects callback path mismatch',async()=>{const tx=await prepare();window.location.href=`https://app.example/other?code=example-code&state=${tx.state}`;assert.throws(()=>consumeCallback());});
 test('preserves the Next.js client component directive in the package',()=>{assert.match(readFileSync(new URL('../dist/index.js',import.meta.url),'utf8'),/["']use client["']/);});
+test('accepts a slow OTP-mode login that completes after 12 minutes',async()=>{
+ const tx=await prepare();storage.set('notif-auth:transaction',JSON.stringify({...tx,createdAt:Date.now()-720000}));
+ assert.deepEqual(consumeCallback(),{code:'example-code',verifier:tx.verifier});
+});
